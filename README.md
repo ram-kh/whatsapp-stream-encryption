@@ -1,3 +1,7 @@
+Использование
+---
+
+```
 use WhatsAppStreamEncryption\EncryptionStream;
 use WhatsAppStreamEncryption\DecryptionStream;
 use GuzzleHttp\Psr7\Stream;
@@ -13,3 +17,4 @@ $decryptedStream = new DecryptionStream($encryptedStream, $mediaKey, 'IMAGE');
 
 // Генерация sidecar для стриминга
 $sidecar = StreamCipher::generateSidecar($decryptedStream, $macKey);
+```
