@@ -98,7 +98,6 @@ class StreamCipher
     public static function generateSidecar($stream, string $macKey, int $chunkSize = 65536): string
     {
         $sidecar = '';
-        $chunkNumber = 0;
 
         while (!feof($stream)) {
             $chunk = fread($stream, $chunkSize);
@@ -106,11 +105,8 @@ class StreamCipher
                 break;
             }
 
-            // For video/audio: sign [n*64K, (n+1)*64K+16]
             $mac = hash_hmac('sha256', $chunk, $macKey, true);
             $sidecar .= substr($mac, 0, 10);
-            
-            $chunkNumber++;
         }
 
         return $sidecar;

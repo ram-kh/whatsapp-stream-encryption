@@ -5,17 +5,14 @@ namespace WhatsAppStreamEncryption;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
-/**
- * @property mixed $cipherKey
- */
+
 class EncryptionStream implements StreamInterface
 {
     private StreamInterface $stream;
     private string $mediaKey;
     private string $mediaType;
-    private string $buffer;
     private int $position;
-    private string $cipher;
+    private string $cipherKey;
     private string $iv;
     private string $macKey;
     private bool $eof;
@@ -26,14 +23,8 @@ class EncryptionStream implements StreamInterface
         $this->mediaKey = $mediaKey;
         $this->mediaType = $mediaType;
         $this->position = 0;
-        $this->buffer = '';
         $this->eof = false;
 
-        $this->initializeCipher();
-    }
-
-    private function initializeCipher(): void
-    {
         $keys = StreamCipher::expandMediaKey($this->mediaKey, $this->mediaType);
         $this->iv = $keys['iv'];
         $this->cipherKey = $keys['cipherKey'];
@@ -46,6 +37,11 @@ class EncryptionStream implements StreamInterface
             OPENSSL_RAW_DATA,
             $this->iv
         );
+    }
+
+    private function initializeCipher(): void
+    {
+
     }
 
     public function read($length): string

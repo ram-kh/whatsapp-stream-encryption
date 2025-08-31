@@ -13,7 +13,7 @@ class Hkdf
             throw new InvalidArgumentException('Key must be at least 32 bytes');
         }
 
-        $hashLength = 32; // SHA-256
+        $hashLength = 32;
         $blocks = ceil($length / $hashLength);
         
         if ($blocks > 255) {
